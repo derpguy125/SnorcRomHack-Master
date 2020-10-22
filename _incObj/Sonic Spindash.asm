@@ -3,7 +3,9 @@
 ;---------------------------------------------------------------------------
 ;||||||||||||||| S U B R O U T I N E |||||||||||||||||||||||||||||||||||||||
 
-Sonic_SpinDash: 
+Sonic_SpinDash:
+		tst.b	$39(a0)			; already Spin Dashing?
+		bne.s	loc_1AC8E		; if set, branch
 		tst.b f_spindash(a0) 
 		bne.s loc_1AC8E 
 		cmpi.b #id_duck,obAnim(a0) 
@@ -29,7 +31,8 @@ locret_1AC8C:
 		rts
 
 ;---------------------------------------------------------------------------
-loc_1AC8E: 
+loc_1AC8E:
+		move.b	#$1F,$1C(a0)
 		move.b (v_jpadhold2).w,d0 
 		btst #1,d0 
 		bne.w loc_1AD30 

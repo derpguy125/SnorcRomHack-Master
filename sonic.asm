@@ -108,8 +108,8 @@ loc_E0:
 	endif
 Console:	dc.b "SEGA MEGA DRIVE " ; Hardware system ID (Console name)
 Date:		dc.b "(C)SEGA 1991.APR" ; Copyright holder and release date (generally year)
-Title_Local:	dc.b "SONIC THE               HEDGEHOG                " ; Domestic name
-Title_Int:	dc.b "SONIC THE               HEDGEHOG                " ; International name
+Title_Local:	dc.b "SNORC THE               HEBNGHAG                " ; Domestic name
+Title_Int:	dc.b "SNORC THE               HEBNGHAG                " ; International name
 Serial:		if Revision=0
 		dc.b "GM 00001009-00"   ; Serial/version number (Rev 0)
 		else
@@ -6933,6 +6933,9 @@ Sonic_Main:	; Routine 0
 		move.w	#$80,(v_sonspeeddec).w ; Sonic's deceleration
 
 Sonic_Control:	; Routine 2
+
+		bsr.s    Sonic_PanCamera    ; ++add this++
+
 		tst.w	(f_debugmode).w	; is debug cheat enabled?
 		beq.s	loc_12C58	; if not, branch
 		btst	#bitB,(v_jpadpress1).w ; is button B pressed?
@@ -6940,6 +6943,8 @@ Sonic_Control:	; Routine 2
 		move.w	#1,(v_debuguse).w ; change Sonic into a ring/item
 		clr.b	(f_lockctrl).w
 		rts	
+		
+		include    "_incObj\Sonic_PanCamera.asm"    ; ++add this++
 ; ===========================================================================
 
 loc_12C58:

@@ -33,6 +33,7 @@ LevelSizeLoad:
 		move.w	#$1010,($FFFFF74A).w
 		move.w	(a0)+,d0
 		move.w	d0,(v_lookshift).w
+		move.w    #160,(v_camera_pan).w    ; reset the horizontal camera pan value to 160 pixels
 		bra.w	LevSz_ChkLamp
 ; ===========================================================================
 ; ---------------------------------------------------------------------------

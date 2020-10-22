@@ -402,42 +402,52 @@ locret_65B0:
 
 
 MoveScreenHoriz:
-		move.w	(v_player+obX).w,d0
-		sub.w	(v_screenposx).w,d0 ; Sonic's distance from left edge of screen
-		subi.w	#144,d0		; is distance less than 144px?
-		bcs.s	SH_BehindMid	; if yes, branch
-		subi.w	#16,d0		; is distance more than 160px?
-		bcc.s	SH_AheadOfMid	; if yes, branch
-		clr.w	(v_scrshiftx).w
-		rts	
+        move.w    (v_player+obX).w,d0
+        sub.w    (v_screenposx).w,d0 ; Sonic's distance from left edge of screen
+        sub.w    (v_camera_pan).w,d0    ; Horizontal camera pan value
+        beq.s    SH_ProperlyFramed    ; if zero, branch
+        bcs.s    SH_BehindMid    ; if less than, branch
+        bra.s    SH_AheadOfMid    ; branch
+; ===========================================================================
+
+SH_ProperlyFramed:
+        clr.w    (v_scrshiftx).w
+        rts 
 ; ===========================================================================
 
 SH_AheadOfMid:
-		cmpi.w	#16,d0		; is Sonic within 16px of middle area?
-		bcs.s	SH_Ahead16	; if yes, branch
-		move.w	#16,d0		; set to 16 if greater
+        cmpi.w    #16,d0        ; is Sonic within 16px of middle area?
+        blt.s    SH_Ahead16    ; if yes, branch
+        move.w    #16,d0        ; set to 16 if greater
 
-	SH_Ahead16:
-		add.w	(v_screenposx).w,d0
-		cmp.w	(v_limitright2).w,d0
-		blt.s	SH_SetScreen
-		move.w	(v_limitright2).w,d0
+SH_Ahead16:
+        add.w    (v_screenposx).w,d0
+        cmp.w    (v_limitright2).w,d0
+        blt.s    SH_SetScreen
+        move.w    (v_limitright2).w,d0
 
 SH_SetScreen:
-		move.w	d0,d1
-		sub.w	(v_screenposx).w,d1
-		asl.w	#8,d1
-		move.w	d0,(v_screenposx).w ; set new screen position
-		move.w	d1,(v_scrshiftx).w ; set distance for screen movement
-		rts	
+        move.w    d0,d1
+        sub.w    (v_screenposx).w,d1
+        asl.w    #8,d1
+        move.w    d0,(v_screenposx).w ; set new screen position
+        move.w    d1,(v_scrshiftx).w ; set distance for screen movement
+        rts
+
 ; ===========================================================================
 
 SH_BehindMid:
-		add.w	(v_screenposx).w,d0
-		cmp.w	(v_limitleft2).w,d0
-		bgt.s	SH_SetScreen
-		move.w	(v_limitleft2).w,d0
-		bra.s	SH_SetScreen
+        cmpi.w    #-16,d0        ; is Sonic within 16px of middle area?
+        bge.s    SH_Behind16    ; if no, branch
+        move.w    #-16,d0        ; set to -16 if less
+
+SH_Behind16:
+        add.w    (v_screenposx).w,d0
+        cmp.w    (v_limitleft2).w,d0
+        bgt.s    SH_SetScreen
+        move.w    (v_limitleft2).w,d0
+        bra.s    SH_SetScreen
+      
 ; End of function MoveScreenHoriz
 
 ; ===========================================================================
