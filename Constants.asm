@@ -366,3 +366,9 @@ fr_Float6:	equ $54
 fr_Injury:	equ $55
 fr_GetAir:	equ $56
 fr_WaterSlide:	equ $57
+fr_Spindash1:	equ $58
+fr_Spindash2:	equ $59
+fr_Spindash3:	equ $5A
+fr_Spindash4:	equ $5B
+fr_Spindash5:	equ $5C
+fr_Spindash6:	equ $5D

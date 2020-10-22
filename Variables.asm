@@ -347,3 +347,5 @@ v_creditsnum:	equ $FFFFFFF4	; credits index number (2 bytes)
 v_megadrive:	equ $FFFFFFF8	; Megadrive machine type
 f_debugmode:	equ $FFFFFFFA	; debug mode flag (sometimes 2 bytes)
 v_init:		equ $FFFFFFFC	; 'init' text string (4 bytes)
+
+f_spindash:		equ $39

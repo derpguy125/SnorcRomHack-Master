@@ -922,13 +922,13 @@ JoypadInit:
 ; ||||||||||||||| S U B	R O U T	I N E |||||||||||||||||||||||||||||||||||||||
 
 
-ReadJoypads:
+ReadJoypads:				; XREF: VBlank, HBlank
 		lea	(v_jpadhold1).w,a0 ; address where joypad states are written
 		lea	($A10003).l,a1	; first	joypad port
-		bsr.s	@read		; do the first joypad
+		bsr.s	Joypad_Read		; do the first joypad
 		addq.w	#2,a1		; do the second	joypad
 
-	@read:
+Joypad_Read:
 		move.b	#0,(a1)
 		nop	
 		nop	
@@ -7007,6 +7007,7 @@ MusicList2:
 ; ---------------------------------------------------------------------------
 
 Sonic_MdNormal:
+		bsr.w   Sonic_SpinDash ;New!
 		bsr.w	Sonic_Jump
 		bsr.w	Sonic_SlopeResist
 		bsr.w	Sonic_Move
@@ -7061,6 +7062,7 @@ loc_12EA6:
 		include	"_incObj\Sonic Move.asm"
 		include	"_incObj\Sonic RollSpeed.asm"
 		include	"_incObj\Sonic JumpDirection.asm"
+		include "_incObj\Sonic Spindash.asm"
 
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
