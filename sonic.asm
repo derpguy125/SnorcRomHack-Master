@@ -2189,9 +2189,9 @@ GM_Title:
 		move.w	#$178,(v_demolength).w ; run title screen for $178 frames
 		lea	(v_objspace+$80).w,a1
 		moveq	#0,d0
-		move.w	#7,d1
+		move.w	#$F,d1	; ($40 / 4) - 1
 
-	Tit_ClrObj2:
+Tit_ClrObj2:
 		move.l	d0,(a1)+
 		dbf	d1,Tit_ClrObj2
 
