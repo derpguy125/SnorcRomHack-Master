@@ -692,7 +692,7 @@ PlaySegaSound:
 		move.b	#$2A,($A04000).l		; $A04000 = $2A -> Write to DAC channel	  
 PlayPCM_Loop:	  
 		move.b	(a2)+,($A04001).l		; Write the PCM data (contained in a2) to $A04001 (YM2612 register D0) 
-		move.w	#$1,d0				; Write the pitch ($14 in this case) to d0 
+		move.w	#$14,d0				; Write the pitch ($14 in this case) to d0 
 		dbf	d0,*				; Decrement d0; jump to itself if not 0. (for pitch control, avoids playing the sample too fast)  
 		sub.l	#1,d3				; Subtract 1 from the PCM sample size 
 		beq.s	return_PlayPCM			; If d3 = 0, we finished playing the PCM sample, so stop playing, leave this loop, and unfreeze the 68K 
